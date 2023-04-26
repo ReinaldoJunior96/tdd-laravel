@@ -46,4 +46,23 @@ class UserTest extends TestCase
             'number' => '98984419150'
         ]);
     }
+
+    public function test_user_must_be_able_to_create_group()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->post(route('new.group'), [
+            'name' => 'Group test',
+            'description' => 'Grupo feito para conversar em grupo'
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('groups',[
+            'name' => 'Group test',
+            'description' => 'Grupo feito para conversar em grupo'
+        ]);
+    }
+
+
 }
